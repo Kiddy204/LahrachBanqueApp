@@ -9,12 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author lial
  */
 @Entity
+@Table(name = "COMPTEBANCAIRE")
+@NamedQueries({
+    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c")})
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,6 +31,13 @@ public class CompteBancaire implements Serializable {
     private int solde;
     public CompteBancaire(){
     }
+
+    public CompteBancaire(String nom, int solde) {
+        this.nom = nom;
+        this.solde = solde;
+    }
+  
+
     public void deposer(int montant) {  
       solde += montant;  
     }  
@@ -36,10 +49,7 @@ public class CompteBancaire implements Serializable {
         solde = 0;
       }  
     }
-    public void CompteNBancaire(String nom, int solde){
-        this.nom =nom;
-        this.solde=solde;
-    }
+
     public String getName() {
         return nom;
     }
