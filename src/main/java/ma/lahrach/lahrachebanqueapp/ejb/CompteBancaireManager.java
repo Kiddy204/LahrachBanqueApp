@@ -5,12 +5,12 @@
 package ma.lahrach.lahrachebanqueapp.ejb;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
+import javax.annotation.sql.DataSourceDefinition;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import ma.lahrach.lahrachebanqueapp.entities.CompteBancaire;
 
@@ -18,36 +18,41 @@ import ma.lahrach.lahrachebanqueapp.entities.CompteBancaire;
  *s
  * @author lial
  */
-
+@DataSourceDefinition (
+    className="com.mysql.cj.jdbc.MysqlDataSource",
+    name="java:app/jdbc/banque",
+    serverName="localhost",
+    portNumber=3306,
+    user="root",              // nom et
+    password="rootroot", // mot de passe que vous avez donnés lors de la création de la base de données
+    databaseName="banque",
+    properties = {
+      "useSSL=false",
+      "allowPublicKeyRetrieval=true"
+    }
+)
 @Stateless
 public class CompteBancaireManager {
 
     @PersistenceContext(unitName = "banquePU")
     private EntityManager em;
-    @Resource
-    private javax.transaction.UserTransaction utx;
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-    void creerCompte(CompteBancaire c) {
+    public void creerCompte(CompteBancaire c) {
         em.merge(c);
     };
-    List<CompteBancaire> getAllComptes() {
+    public List<CompteBancaire> getAllComptes() {
         String s = "select c from Employe as c";
         TypedQuery<CompteBancaire> query = em.createQuery(s, CompteBancaire.class);
         List<CompteBancaire> liste = query.getResultList();
         return liste;
     };
-      public void persist(CompteBancaire compte) {
-        em.persist(compte);
-    }
+    
+        public long nbCompte(){
+         String s = "SELECT count(cp) FROM CompteBancaire cp";
+        Query query = em.createQuery("SELECT count(c) FROM CompteBancaire c");
+        long count = (long)query.getSingleResult();
+        return count;
+        }
+
 
 }

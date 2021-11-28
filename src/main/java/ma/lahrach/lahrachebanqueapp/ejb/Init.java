@@ -20,17 +20,15 @@ import ma.lahrach.lahrachebanqueapp.entities.CompteBancaire;
 public class Init {
     @EJB
     private CompteBancaireManager compteBancaireManager;
-    public void nbComptes(){}
     
     @PostConstruct
-    @Asynchronous
     public void InitComptes(){
-        compteBancaireManager.creerCompte(new CompteBancaire("John Lennon", 12000));
-        compteBancaireManager.creerCompte(new CompteBancaire("Paul McCartney", 12000));
-        compteBancaireManager.creerCompte(new CompteBancaire("Ringo Starr ", 12000));
-        compteBancaireManager.creerCompte(new CompteBancaire("Georges Harrisson", 12000));
-        System.err.println("HELOOOOOO");
-        
+        if(compteBancaireManager.nbCompte() == 0){
+            compteBancaireManager.creerCompte(new CompteBancaire("John Lennon", 12000));
+            compteBancaireManager.creerCompte(new CompteBancaire("Paul McCartney", 12000));
+            compteBancaireManager.creerCompte(new CompteBancaire("Ringo Starr ", 12000));
+            compteBancaireManager.creerCompte(new CompteBancaire("Georges Harrisson", 12000));
+        }
     }
 
     // Add business logic below. (Right-click in editor and choose
