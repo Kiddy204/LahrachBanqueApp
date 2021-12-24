@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB31/SingletonEjbClass.java to edit this template
  */
-package ma.lahrach.lahrachebanqueapp.ejb;
+package ma.lahrach.lahrachebanqueapp.session;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
@@ -19,15 +19,15 @@ import ma.lahrach.lahrachebanqueapp.entities.CompteBancaire;
 @Singleton
 public class Init {
     @EJB
-    private CompteBancaireManager compteBancaireManager;
+    private GestionnaireCompte compteBancaireManager;
     
     @PostConstruct
     public void InitComptes(){
         if(compteBancaireManager.nbCompte() == 0){
-            compteBancaireManager.creerCompte(new CompteBancaire("John Lennon", 12000));
-            compteBancaireManager.creerCompte(new CompteBancaire("Paul McCartney", 12000));
-            compteBancaireManager.creerCompte(new CompteBancaire("Ringo Starr ", 12000));
-            compteBancaireManager.creerCompte(new CompteBancaire("Georges Harrisson", 12000));
+            compteBancaireManager.creerCompte(new CompteBancaire("John Lennon", 0));
+            compteBancaireManager.creerCompte(new CompteBancaire("Paul McCartney", 250045987));
+            compteBancaireManager.creerCompte(new CompteBancaire("Ringo Starr ", 2002545));
+            compteBancaireManager.creerCompte(new CompteBancaire("Georges Harrisson", 1110200));
         }
     }
 

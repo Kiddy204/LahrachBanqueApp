@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+        <f:metadata>
+                <f:viewParam name="idCompte" value="#{detailsCompte.idCompte}" required="true"/>
+                <f:viewAction action="#{detailsCompte.loadCompte()}"/>
+        </f:metadata>
+
+
+        <ui:composition template="./WEB-INF/templates/default_template.xhtml">
+     
+            
+            <ui:define name="content">
+                <f:view>
+
+
+                    <h:form>
+                        <h1><h:outputText value="Create/Edit"/></h1>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Name:" for="name" />
+                            <p:inputText id="name" value="#{detailsCompte.compte.name}" title="Name" disabled="false" />
+                            <p:outputLabel value="Solde:" for="solde" />
+                            <p:inputText id="solde" value="#{detailsCompte.compte.solde}" title="Solde" disabled="true"/>
+                            <p:outputLabel value="Id:" for="id" />
+                            <p:inputText id="id" value="#{detailsCompte.compte.id}" title="Id" disabled="true"/>
+                        </p:panelGrid>
+                        
+                        <p:commandButton id="update" value="Enregistrer" action="#{detailsCompte.update}" />
+                        <p:messages/>
+
+                    </h:form>
+                </f:view>
+
+                
+                <h:form>
+                    <h1>Dépot : </h1>
+                    <p:inputText id="depot"  title="depot" disabled="false" value="#{detailsCompte.depot}" placeholder="Entrez somme de dépot..."/>
+                    <p:commandButton action="#{detailsCompte.crediter}" value="Crediter" />  
+                </h:form>
+                <h:form>
+                    <h1>Débit  : </h1>
+                    <p:inputText id="depot"  title="depot" disabled="false" value="#{detailsCompte.debit}" placeholder="Entrez somme de dépot..."/>
+                    <p:commandButton action="#{detailsCompte.debiter}" value="Débiter" />  
+                </h:form>
+                <h:form>
+                    <h1>Transfert  : </h1>
+                    <h:panelGrid columns="2">
+                        
+                        <p:inputText id="transfert"  title="transfert" disabled="false" value="#{detailsCompte.transfert}" />
+
+                        <p:selectOneMenu id="destinataire" value="#{detailsCompte.destinataire}"  
+                                        title="Destinataire" required="true" requiredMessage="Le destinataire est required." 
+                                        converter="#{detailsCompte.compteBancaireConverter}">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{listeComptes.allComptes}"
+                                var="item"   
+                                itemLabel="#{item.nom}" itemValue="#{item}" />
+                        </p:selectOneMenu>
+                        
+                        <p:commandButton action="#{detailsCompte.transferer}" value="Transférer" />  
+                        
+                    </h:panelGrid>
+
+                    
+                    <h:messages/>
+                </h:form>
+               
+                
+            </ui:define>
+
+        </ui:composition>
+
+
+</html>

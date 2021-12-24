@@ -5,12 +5,14 @@
 package ma.lahrach.lahrachebanqueapp.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Query;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +22,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "COMPTEBANCAIRE")
 @NamedQueries({
-    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c")})
+    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c"),
+    @NamedQuery(name = "CompteBancaire.findByCompteBancaireId", query = "SELECT c FROM CompteBancaire c WHERE c.id = :compteBancaireId"),
+    @NamedQuery(name = "CompteBancaire.findByName", query = "SELECT c FROM CompteBancaire c WHERE c.nom = :compteNom"),
+
+    @NamedQuery(name = "CompteBancaire.getAllNames", query = "SELECT c.nom FROM CompteBancaire c"),
+
+    
+
+})
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,13 +60,17 @@ public class CompteBancaire implements Serializable {
       }  
     }
 
-    public String getName() {
+    public String getNom() {
         return nom;
     }
 
-    public void setName(String name) {
-        this.nom = name;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
+
+  
+
+    
 
     public int getSolde() {
         return solde;
@@ -73,14 +87,15 @@ public class CompteBancaire implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+  
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -98,5 +113,5 @@ public class CompteBancaire implements Serializable {
     public String toString() {
         return "ma.lahrach.lahrachebanqueapp.entities.CompteBancaire[ id=" + id + " ]";
     }
-    
+
 }
